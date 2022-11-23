@@ -1,5 +1,9 @@
 import { EChartOption } from "echarts";
 import type { LegendType } from "../business/types";
+import {
+  extraCssText,
+  tooltipHtmlTextGenerator,
+} from "../style/tooltipStyleHelper";
 
 const TwoBarGraphComponents = (
   amData: number[],
@@ -9,13 +13,19 @@ const TwoBarGraphComponents = (
   legend?: LegendType
 ): EChartOption => {
   return {
+    grid: {
+      width: 1056,
+    },
     tooltip: {
       trigger: "axis",
-      axisPointer: {
-        type: "cross",
-        crossStyle: {
-          color: "#999",
-        },
+      extraCssText: extraCssText,
+      formatter: function (
+        args: EChartOption.Tooltip.Format | EChartOption.Tooltip.Format[]
+      ) {
+        const params = args as EChartOption.Tooltip.Format[];
+
+        const result = tooltipHtmlTextGenerator(params);
+        return result;
       },
     },
     title: { text: title, left: "5%" },
@@ -28,6 +38,7 @@ const TwoBarGraphComponents = (
       {
         type: "category",
         data: xAxisData,
+        axisTick: "none",
         axisPointer: {
           type: "shadow",
         },
@@ -49,19 +60,20 @@ const TwoBarGraphComponents = (
       {
         name: "AM Money",
         type: "bar",
+        barWidth: 12,
         tooltip: {
           formatter: `{value}  M €`,
         },
         data: amData,
         itemStyle: {
-          color: "rgba(23, 105, 170, 0.4)",
+          color: "#1769AA",
           borderRadius: 50,
-          width: 12, // NOT WORKING
         },
       },
       {
         name: "Market Money",
         type: "bar",
+        barWidth: 12,
         tooltip: {
           formatter: `{value}  M €`,
         },
@@ -69,7 +81,6 @@ const TwoBarGraphComponents = (
         itemStyle: {
           color: "#E0E0E0",
           borderRadius: 50,
-          width: 12,
         },
       },
     ],
