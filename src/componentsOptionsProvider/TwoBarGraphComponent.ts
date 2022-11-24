@@ -14,45 +14,55 @@ const TwoBarGraphComponents = (
 ): EChartOption => {
   return {
     grid: {
-      width: 1056,
+      width: 1065,
+      left: 40,
+      right: 50,
+      top: 60,
+      bottom: 50,
     },
     tooltip: {
       trigger: "axis",
       extraCssText: extraCssText,
-      formatter: function (
-        args: EChartOption.Tooltip.Format | EChartOption.Tooltip.Format[]
-      ) {
-        const params = args as EChartOption.Tooltip.Format[];
-
-        const result = tooltipHtmlTextGenerator(params);
-        return result;
-      },
+      formatter: (params) =>
+        tooltipHtmlTextGenerator(params as EChartOption.Tooltip.Format[]),
     },
-    title: { text: title, left: "5%" },
+    title: { text: title },
     legend: {
       top: "5%",
-      left: "center",
+      left: "70%",
       data: legend?.data,
     },
     xAxis: [
       {
         type: "category",
         data: xAxisData,
+        axisLine: {
+          show: false,
+        },
         axisTick: "none",
         axisPointer: {
-          type: "shadow",
+          type: "none",
+        },
+        axisLabel: {
+          color: "#666666",
         },
       },
     ],
     yAxis: [
       {
         type: "value",
-        name: "M €",
+        name: "M€  ",
+        nameTextStyle: { align: "right" },
         min: 0,
         max: 1000,
         interval: 200,
         axisLabel: {
-          formatter: "{value} M €",
+          formatter: "{value}",
+          align: "right",
+          color: "#666666",
+        },
+        splitLine: {
+          lineStyle: { type: "dashed" },
         },
       },
     ],
@@ -62,7 +72,7 @@ const TwoBarGraphComponents = (
         type: "bar",
         barWidth: 12,
         tooltip: {
-          formatter: `{value}  M €`,
+          formatter: `{value} M€`,
         },
         data: amData,
         itemStyle: {
@@ -75,7 +85,7 @@ const TwoBarGraphComponents = (
         type: "bar",
         barWidth: 12,
         tooltip: {
-          formatter: `{value}  M €`,
+          formatter: `{value} M€`,
         },
         data: marketData,
         itemStyle: {

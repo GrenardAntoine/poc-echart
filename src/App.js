@@ -178,12 +178,24 @@ function App() {
     403.6, 603.9, 903.0, 900.4, 900.7, 700.7, 170.6, 120.2, 480.7,
   ];
   const xAxisData = Object.keys(AssetType);
-  console.log(xAxisData);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
       <ReactEcharts option={verticalBarChart()} />
+
       <ReactEcharts
+        style={{
+          border: "1px solid red",
+          boxSizing: "border-box",
+          width: 1065,
+          alignSelf: "center",
+        }}
         option={TwoBarGraphComponents(
           amData,
           marketData,

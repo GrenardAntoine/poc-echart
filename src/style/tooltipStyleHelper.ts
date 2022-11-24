@@ -1,28 +1,36 @@
 import { EChartOption } from "echarts";
-import { Tooltip } from "./types";
+import { TooltipContentLine } from "./types";
 
 const extraCssText =
   "border: 1px solid #1769AA;padding:8px 16px;border-radius:16px";
 const tooltipHtmlTextGenerator = (
-  params: EChartOption.Tooltip.Format[]
+  hoveredBarPair: EChartOption.Tooltip.Format[]
 ): string => {
-  const tooltipEntries: Array<Tooltip> = [];
-  params.forEach((param) => {
-    const obj: Tooltip = {
-      axisValue: String(param.axisValue),
-      data: String(param.data),
-      seriesName: String(param.seriesName),
+  const tooltipEntries: Array<TooltipContentLine> = [];
+
+  hoveredBarPair.forEach((bar) => {
+    const toolLipLine: TooltipContentLine = {
+      axisValue: String(bar.axisValue),
+      data: String(bar.data),
+      seriesName: String(bar.seriesName),
     };
-    tooltipEntries.push(obj);
+    tooltipEntries.push(toolLipLine);
   });
-  let result = `<div style="color:#1769AA">${params[0].name}</div>`;
-  result += "<hr style='color:#EBEBEB'/>";
-  result += "<table >";
-  tooltipEntries.forEach(
-    (entry) =>
-      (result += `<tr><td colspan="2">${entry.seriesName}</td><td>          </td><td style="font-weight: bold;">${entry.data}M €</td><tr>`)
-  );
-  return "</table>" + result;
+
+  const result = `<div style="display:flex;flex-direction:column; box-sizing:border-box; color:#212121">
+    <div style="color:#1769AA">${hoveredBarPair[0].name}</div>
+    <hr style='color:#EBEBEB; width: 100%'/>
+    <div style="display:flex;flex-direction:row;justify-content: space-between; gap:10px">
+      <div>${tooltipEntries[0].seriesName}</div>
+      <div style="font-weight: bold;">${tooltipEntries[0].data}M€</div>
+    </div>
+    <div style="display:flex;flex-direction:row;justify-content: space-between; gap:10px">
+      <div>${tooltipEntries[1].seriesName}</div>
+      <div style="font-weight: bold;">${tooltipEntries[1].data}M€</div>
+    </div>
+  </div>`;
+
+  return result;
 };
 
 export { extraCssText, tooltipHtmlTextGenerator };

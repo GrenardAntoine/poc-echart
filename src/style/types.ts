@@ -1,7 +1,7 @@
-interface Tooltip {
+interface TooltipContentLine {
   axisValue?: string;
   data?: string;
   seriesName?: string;
 }
 
-export { Tooltip };
+export { TooltipContentLine };
